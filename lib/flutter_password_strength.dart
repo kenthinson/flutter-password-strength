@@ -30,15 +30,15 @@ class FlutterPasswordStrength extends StatefulWidget {
   final void Function(double strength)? strengthCallback;
 
   const FlutterPasswordStrength(
-      { Key? key,
-        required this.password,
-        this.width,
-        this.height = 5,
-        this.strengthColors,
-        this.backgroundColor = Colors.grey,
-        this.radius = 0,
-        this.duration,
-        this.strengthCallback})
+      {Key? key,
+      required this.password,
+      this.width,
+      this.height = 5,
+      this.strengthColors,
+      this.backgroundColor = Colors.grey,
+      this.radius = 0,
+      this.duration,
+      this.strengthCallback})
       : super(key: key);
 
   /*
@@ -56,14 +56,17 @@ class FlutterPasswordStrength extends StatefulWidget {
             TweenSequenceItem(
               weight: 1.0,
               tween: ColorTween(
-                begin: Colors.red,
-                end: Colors.yellow,
+                begin: Color.fromRGBO(
+                    204, 69, 82, 1), //CAPCA Theme.of(context).errorColor,
+                end: Color.fromRGBO(
+                    225, 205, 76, 1), //CAPCA Theme.of(context).warning,
               ),
             ),
             TweenSequenceItem(
               weight: 1.0,
               tween: ColorTween(
-                begin: Colors.yellow,
+                begin: Color.fromRGBO(
+                    225, 205, 76, 1), //CAPCA Theme.of(context).warning
                 end: Colors.blue,
               ),
             ),
@@ -71,7 +74,8 @@ class FlutterPasswordStrength extends StatefulWidget {
               weight: 1.0,
               tween: ColorTween(
                 begin: Colors.blue,
-                end: Colors.green,
+                end: Color(
+                    0xff7d9e5b), //CAPCA Theme.of(context).colorScheme.primary
               ),
             ),
           ],
@@ -134,8 +138,9 @@ class _FlutterPasswordStrengthState extends State<FlutterPasswordStrength>
     _strengthBarAnimation =
         Tween<double>(begin: _begin, end: _end).animate(_animationController);
     _strengthBarColors = widget._strengthColors;
-    _strengthBarColor =
-        _strengthBarColors.evaluate(AlwaysStoppedAnimation(_passwordStrength)) ?? Colors.transparent;
+    _strengthBarColor = _strengthBarColors
+            .evaluate(AlwaysStoppedAnimation(_passwordStrength)) ??
+        Colors.transparent;
 
     _backgroundColor = widget.backgroundColor;
 
@@ -157,12 +162,13 @@ class _FlutterPasswordStrengthState extends State<FlutterPasswordStrength>
 
     _strengthBarAnimation =
         Tween<double>(begin: _begin, end: _end).animate(_animationController);
-    _strengthBarColor =
-        _strengthBarColors.evaluate(AlwaysStoppedAnimation(_passwordStrength)) ?? Colors.transparent;
+    _strengthBarColor = _strengthBarColors
+            .evaluate(AlwaysStoppedAnimation(_passwordStrength)) ??
+        Colors.transparent;
 
     _animationController.forward(from: 0.0);
 
-    if(_strengthCallback != null){
+    if (_strengthCallback != null) {
       _strengthCallback!(_passwordStrength);
     }
   }
@@ -237,7 +243,8 @@ class StrengthBar extends CustomPainter {
   double barRadius;
   double percent;
 
-  StrengthBar({required this.barColor, required this.barRadius, required this.percent});
+  StrengthBar(
+      {required this.barColor, required this.barRadius, required this.percent});
 
   @override
   void paint(Canvas canvas, Size size) {
